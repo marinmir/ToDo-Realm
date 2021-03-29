@@ -1,0 +1,27 @@
+# Template information section
+name: "ino_mvvm_module"
+summary: "Inostudio MVVM+C Module"
+author: "Magin Yaroslav"
+version: "1.0"
+license: "MIT"
+
+# The declarations for code files
+
+code_files:
+# Feature All module
+
+# Module
+- {name: Module/Module.swift, path: Code/Module/module.swift.liquid}
+- {name: Module/ModuleAssembly.swift, path: Code/Module/assembly.swift.liquid}
+
+# View
+- {name: View/ViewController.swift, path: Code/Module/viewcontroller.swift.liquid}
+- {name: View/View.swift, path: Code/Module/view.swift.liquid}
+
+# ViewModel
+- {name: ViewModel/ViewModel.swift, path: Code/Module/viewmodel.swift.liquid}
+
+# Coordinator
+- {name: Coordinator/Coordinator.swift, path: Code/Module/coordinator.swift.liquid}
+# possibly we don't need it
+#- {name: Coordinator/CoordinatorAssembly.swift, path: Code/Module/coordinatorassembly.swift.liquid}

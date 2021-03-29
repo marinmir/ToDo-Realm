@@ -1,0 +1,27 @@
+### Headers settings
+company: Inostudio Solutions
+
+### Xcode project settings
+project_name: ToDo+Realm
+xcodeproj_path: ToDo+Realm.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: ToDo+Realm
+
+# The file path for new modules
+project_file_path: ToDo+Realm/PresentationLayer/Modules
+
+# The Xcode group path to new modules
+project_group_path: ToDo+Realm/PresentationLayer/Modules
+
+### Dependencies settings section
+podfile_path: Podfile
+
+### Templates
+
+catalogs:
+- 'https://git.inostudio.net/ino/generamba-catalog'
+
+templates:
+- { name: ino_mvvm_module }

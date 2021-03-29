@@ -1,0 +1,16 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import InoMvvmc
+
+protocol {{ module_info.name }}ModuleInput: AnyObject {}
+
+protocol {{ module_info.name }}ModuleOutput: AnyObject {}
+
+final class {{ module_info.name }}Module: BaseModule<{{ module_info.name }}ModuleInput, {{ module_info.name }}ModuleOutput> {}

@@ -1,0 +1,29 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import RxCocoa
+import RxSwift
+
+/// Describes view model's input streams/single methods
+protocol {{ module_info.name }}ViewModelInput {}
+
+/// Describes view model's output streams needed to update UI
+protocol {{ module_info.name }}ViewModelOutput {}
+
+protocol {{ module_info.name }}ViewModelBindable: {{ module_info.name }}ViewModelInput & {{ module_info.name }}ViewModelOutput {}
+
+final class {{ module_info.name }}ViewModel: {{ module_info.name }}ModuleInput & {{ module_info.name }}ModuleOutput {
+    private let disposeBag = DisposeBag()
+}
+
+// MARK: - {{ module_info.name }}ViewModelBindable implementation
+
+extension {{ module_info.name }}ViewModel: {{ module_info.name }}ViewModelBindable {
+	// Describe all bindings here
+}

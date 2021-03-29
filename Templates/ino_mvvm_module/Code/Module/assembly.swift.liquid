@@ -1,0 +1,29 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Swinject
+
+final class {{ module_info.name }}ModuleAssembly: Assembly {
+    func assemble(container: Container) {
+        container.register({{ module_info.name }}ViewModel.self) { _ in
+            // replace '_' with 'resolver' and inject dependencies if necessary
+            return {{ module_info.name }}ViewModel()
+        }
+
+        container.register({{ module_info.name }}Module.self) { resolver in
+            let viewModel = resolver.resolve({{ module_info.name }}ViewModel.self)!
+            let view = {{ module_info.name }}ViewController(viewModel: viewModel)
+            
+            return {{ module_info.name }}Module(
+                view: view,
+                input: viewModel,
+                output: viewModel
+            )
+        }
+    }
+}

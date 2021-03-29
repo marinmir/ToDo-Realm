@@ -1,0 +1,19 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import InoMvvmc
+import Swinject
+
+final class {{ module_info.name }}CoordinatorAssembly: Assembly {
+	func assemble(container: Container) {
+		container.register({{ module_info.name }}Coordinator.self) { _ in
+			// replace '_' with 'resolver' and inject other coordinators if necessary
+			return {{ module_info.name }}Coordinator()
+		}
+	}
+}
