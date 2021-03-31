@@ -73,7 +73,7 @@ final class TaskListDetailsViewController: UIViewController {
 
 extension TaskListDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //viewModel.didSelectRow.onNext(indexPath.row)
+        viewModel.selectedTaskIndex.onNext(indexPath.row)
     }
 }
 

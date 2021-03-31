@@ -58,10 +58,10 @@ final class ToDoListsView: UIView {
         toDoListsTableView.tableFooterView = UIView()
         addSubview(toDoListsTableView)
         
-        emptyView.backgroundColor = .lightGray
+        emptyView.backgroundColor = .white
         addSubview(emptyView)
         
-        emptyTextLabel.textColor = .white
+        emptyTextLabel.textColor = .systemBlue
         emptyTextLabel.numberOfLines = 0
         emptyTextLabel.lineBreakMode = .byWordWrapping
         emptyTextLabel.text = "You don't have any ToDo Lists yet. You can create a new one, just press a button below"

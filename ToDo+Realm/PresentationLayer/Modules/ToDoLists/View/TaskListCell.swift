@@ -37,7 +37,7 @@ class TaskListCell: UITableViewCell {
     func configure(toDoList: TaskList) {
         listImageView.image = toDoList.image
         titleLabel.text = toDoList.name
-        tasksCountLabel.text = String(toDoList.tasks.filter { !$0.isDone }.count)
+        tasksCountLabel.text = "\(String(toDoList.tasks.filter { $0.isDone }.count)) of \(String(toDoList.tasks.count))"
     }
     
     // MARK: - Private methods

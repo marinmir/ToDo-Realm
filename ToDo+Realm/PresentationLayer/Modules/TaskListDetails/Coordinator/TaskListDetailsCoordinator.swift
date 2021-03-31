@@ -36,15 +36,26 @@ final class TaskListDetailsCoordinator: BaseCoordinator<Void> {
             guard let self = self else { return }
             self.openNewTask(from: self.navigationViewController, with: module)
         }
+        
+        module.output.onShowTask = { [weak self] task in
+            guard let self = self else { return }
+            self.openNewTask(from: self.navigationViewController, with: module, editableTask: task)
+        }
 	}
     
-    private func openNewTask(from viewController: UIViewController, with parent: TaskListDetailsModule) {
+    private func openNewTask(from viewController: UIViewController, with parent: TaskListDetailsModule, editableTask: Task? = nil) {
         let newTaskModule = resolver.resolve(NewTaskModule.self)!
         
         newTaskModule.output.onCreatedTask = { task in
             parent.input.addNewTask(task: task)
             newTaskModule.view.dismiss(animated: true, completion: nil)
-            
+        }
+        
+        newTaskModule.input.editableTask = editableTask
+        
+        newTaskModule.output.onEditedTask = { editableTask, newTask in
+            parent.input.updateTask(from: editableTask, to: newTask)
+            newTaskModule.view.dismiss(animated: true, completion: nil)
         }
         
         viewController.present(UINavigationController(rootViewController: newTaskModule.view), animated: true, completion: nil)

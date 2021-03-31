@@ -15,6 +15,7 @@ protocol TaskListDetailsViewModelInput {
     var didTapAdd: Binder<Void> { get }
     func deleteTask(task: Task)
     func didSelectDoneButton(isDone: Bool, for task: Task)
+    var selectedTaskIndex: Binder<Int> { get }
 }
 
 /// Describes view model's output streams needed to update UI
@@ -27,6 +28,8 @@ protocol TaskListDetailsViewModelOutput {
 protocol TaskListDetailsViewModelBindable: TaskListDetailsViewModelInput & TaskListDetailsViewModelOutput {}
 
 final class TaskListDetailsViewModel: TaskListDetailsModuleInput & TaskListDetailsModuleOutput {
+    var onShowTask: ((Task) -> Void)?
+    
     let taskList: TaskList
     var onTapAddButton: (() -> Void)?
     
@@ -34,6 +37,7 @@ final class TaskListDetailsViewModel: TaskListDetailsModuleInput & TaskListDetai
     private let shouldShowEmptyViewRelay: BehaviorRelay<Bool>
     private let tasksRelay = BehaviorRelay<[Task]>(value: [])
     private let didTapAddRelay = PublishRelay<Void>()
+    private let selectedTaskIndexRelay = PublishRelay<Int>()
     
     private let dbReader: DatabaseReader
     private let dbWriter: DatabaseWriter
@@ -50,6 +54,11 @@ final class TaskListDetailsViewModel: TaskListDetailsModuleInput & TaskListDetai
             guard let self = self else { return }
             self.onTapAddButton?()
         }).disposed(by: disposeBag)
+        
+        selectedTaskIndexRelay.subscribe(onNext: { [weak self] index in
+            guard let self = self else { return }
+            self.onShowTask?(self.tasksRelay.value[index])
+        }).disposed(by: disposeBag)
     }
     
     func didSelectDoneButton(isDone: Bool, for task: Task) {
@@ -61,6 +70,19 @@ final class TaskListDetailsViewModel: TaskListDetailsModuleInput & TaskListDetai
                 self.refresh()
             }
         })
+    }
+    
+    func updateTask(from oldTask: Task, to newTask: Task) {
+        dbWriter.execute(for: oldTask, with: oldTask.taskId, block: { task in
+            task.name = newTask.name
+            task.deadline = newTask.deadline
+            task.notes = newTask.notes
+        }, completion: { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                self.refresh()
+            }
+         })
     }
     
     func addNewTask(task: Task) {
@@ -110,5 +132,9 @@ extension TaskListDetailsViewModel: TaskListDetailsViewModelBindable {
     
     var didTapAdd: Binder<Void> {
         return Binder(didTapAddRelay) { $0.accept($1) }
+    }
+    
+    var selectedTaskIndex: Binder<Int> {
+        return Binder(selectedTaskIndexRelay) { $0.accept($1) }
     }
 }

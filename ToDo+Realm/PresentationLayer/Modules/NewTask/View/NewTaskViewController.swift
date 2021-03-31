@@ -40,6 +40,6 @@ final class NewTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        title = "New task"
+        title = viewModel.editableTask == nil ? "New task" : "Edit task"
     }
 }
