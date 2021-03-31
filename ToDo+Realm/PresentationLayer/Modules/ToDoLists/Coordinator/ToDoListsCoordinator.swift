@@ -27,9 +27,6 @@ final class ToDoListsCoordinator: BaseCoordinator<Void> {
             let navigationController = UINavigationController(rootViewController: module.view)
             
             module.output.onShowTaskList = { taskList in
-                // 2 let taskListCoordinator = TaskListCoordinator(navigation: navigationController)
-                // 2 self.coordinate(to: taskListCoordinator)
-                
                 let taskListDetailsCoordinator = TaskListDetailsCoordinator(taskList: taskList, navController: navigationController)
                 
                 taskListDetailsCoordinator.onComplete = { _ in
@@ -37,9 +34,6 @@ final class ToDoListsCoordinator: BaseCoordinator<Void> {
                 }
                 
                 self.coordinate(to: taskListDetailsCoordinator)
-                
-                // 1 let taskListModule = self.resolver.resolve(TaskListModule.self)!
-                // 1 navigationController.pushViewController(taskListModule.view, animated: true)
             }
             
             module.output.onTapCreateButton = { [weak self] in

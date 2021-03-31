@@ -83,9 +83,9 @@ final class NewTaskListView: UIView {
     
     private func setConstraints() {
         imageView.snp.makeConstraints{ make in
-            make.bottom.equalTo(nameTextField.snp.top).offset(-90)
+            make.bottom.equalTo(nameTextField.snp.top).offset(-80)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.height.equalTo(180)
         }
         
         nameTextField.snp.makeConstraints{ make in
@@ -95,7 +95,7 @@ final class NewTaskListView: UIView {
         }
         
         createButton.snp.makeConstraints{ make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(100)
+            make.top.equalTo(nameTextField.snp.bottom).offset(80)
             make.leading.trailing.equalToSuperview().inset(24)
             make.height.equalTo(44)
         }

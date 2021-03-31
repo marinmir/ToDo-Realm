@@ -54,6 +54,26 @@ class DatabaseWriterImpl: DatabaseWriter {
         }
     }
     
+    func update<T: Object>(_ obj: T, completion: ((Bool) -> Void)?) {
+        let tsr = ThreadSafeReference(to: obj)
+        worker.enqueue { [weak self] in
+            var isSuccess = true
+            guard let realm = self?.realm else {
+                completion?(false)
+                return
+            }
+            do {
+                try realm.write {
+                    guard let sourceObj = realm.resolve(tsr) else { return }
+                    realm.add(sourceObj, update: .modified)
+                }
+            } catch {
+                isSuccess = false
+            }
+            completion?(isSuccess)
+        }
+    }
+    
     func write<T: Object>(items: [T], completion: ((_ success: Bool) -> Void)?) {
         worker.enqueue { [weak self] in
             guard let self = self else { return }

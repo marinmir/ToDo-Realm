@@ -21,11 +21,15 @@ protocol NewTaskViewModelInput {
 /// Describes view model's output streams needed to update UI
 protocol NewTaskViewModelOutput {
     var canCreateTask: Driver<Bool> { get }
+    var editableTask: Task? { get }
 }
 
 protocol NewTaskViewModelBindable: NewTaskViewModelInput & NewTaskViewModelOutput {}
 
 final class NewTaskViewModel: NewTaskModuleInput & NewTaskModuleOutput {
+    var onEditedTask: ((Task, Task) -> Void)?
+    
+    var editableTask: Task?
     
     var onCreatedTask: ((Task) -> Void)?
     
@@ -62,7 +66,11 @@ final class NewTaskViewModel: NewTaskModuleInput & NewTaskModuleOutput {
         newTask.deadline = deadline
         newTask.notes = notesRelay.value
         
-        onCreatedTask?(newTask)
+        if let editableTask = editableTask {
+            onEditedTask?(editableTask, newTask)
+        } else {
+            onCreatedTask?(newTask)
+        }
     }
     
 }

@@ -25,6 +25,12 @@ final class NewTaskView: UIView {
 
     private let notesPlaceholder = "Write some notes for this task"
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, h:mm a"
+        return formatter
+    }()
+    
     // MARK: - Initializers
 
     init() {
@@ -44,6 +50,19 @@ final class NewTaskView: UIView {
     // MARK: - Public methods
 
     func bind(to viewModel: NewTaskViewModelBindable) {
+        if let editableTask = viewModel.editableTask {
+            nameTextField.text = editableTask.name
+            if !editableTask.notes.isEmpty {
+                notesTextView.text = editableTask.notes
+            }
+            
+            datePicker.date = editableTask.deadline
+            viewModel.deadline.onNext(editableTask.deadline)
+            deadlineTextField.text = dateFormatter.string(from: editableTask.deadline)
+            
+            createButton.setTitle("Update", for: .normal)
+        }
+        
         // Bindings UI controls to view model's input/output
         nameTextField.rx.text.orEmpty
             .bind(to: viewModel.name)
@@ -95,7 +114,9 @@ final class NewTaskView: UIView {
         deadlineTextField.textAlignment = .center
         addSubview(deadlineTextField)
         
-        setNotesPlaceholder()
+        if notesPlaceholder.isEmpty {
+            setNotesPlaceholder()
+        }
         notesTextView.layer.borderWidth = 1
         notesTextView.layer.borderColor = UIColor.blue.cgColor
         addSubview(notesTextView)
@@ -131,9 +152,7 @@ final class NewTaskView: UIView {
     }
     
     @objc private func doneDatePicker() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
-        deadlineTextField.text = formatter.string(from: datePicker.date)
+        deadlineTextField.text = dateFormatter.string(from: datePicker.date)
         endEditing(true)
     }
     

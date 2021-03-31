@@ -59,10 +59,10 @@ final class TaskListDetailsView: UIView {
         tasksList.tableFooterView = UIView()
         addSubview(tasksList)
         
-        emptyView.backgroundColor = .purple
+        emptyView.backgroundColor = .white
         addSubview(emptyView)
         
-        emptyTextLabel.textColor = .white
+        emptyTextLabel.textColor = .systemBlue
         emptyTextLabel.numberOfLines = 0
         emptyTextLabel.lineBreakMode = .byWordWrapping
         emptyTextLabel.text = "You don't have any tasks yet. You can create a new one, just press a button with +"
